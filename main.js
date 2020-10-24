@@ -23,5 +23,16 @@ function inputData(){
         value: web3.utils.toWei("1", "ether")
     }
 
-    contractInstance.methods.createPerson(name, age, height).send(config);
+    contractInstance.methods.createPerson(name, age, height).send(config) // sends tx
+    //web3 tx listener
+    .on("transactionHash", function(hash){ 
+        console.log(hash);
+    }) 
+    .on("confirmation", function(confirmationNr){
+        console.log(confirmationNr); 
+    })
+    .on("receipt", function(receipt){
+        console.log(receipt);
+        alert("tx done");
+    })
 }
