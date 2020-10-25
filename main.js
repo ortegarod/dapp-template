@@ -3,11 +3,12 @@ var contractInstance;
 
 $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){ // permission to access Metamask account
-        contractInstance = new web3.eth.Contract(abi, "0xb292f0B7Cf0763ADa448e13f69Ae2C371bbb4A61", {from: accounts[0]}); // people-project contract
+        contractInstance = new web3.eth.Contract(abi, "0x472d9672fCcD7A59c2F00536D17258c11f88f749", {from: accounts[0]}); // people-project contract
         console.log(contractInstance);
     }); 
     // add click handler using jQuery, executes function on click
     $("#add_data_button").click(inputData)
+    $("#get_data_button").click(fetchAndDisplay)
 
 
 });
@@ -35,4 +36,15 @@ function inputData(){
         console.log(receipt);
         alert("tx done");
     })
+}
+
+function fetchAndDisplay(){
+    contractInstance.methods.getPerson().call().then(function(res){ // queries for data
+        // console.log(res);
+        $("#name_output").text(res.name);
+        $("#age_output").text(res.age);
+        $("#height_output").text(res.height);
+
+    }) 
+
 }
